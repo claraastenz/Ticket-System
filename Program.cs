@@ -30,6 +30,8 @@ public class TicketFile
 
     public void ReadFromFile()
     {
+        try
+        {
         if (File.Exists(filePath))
         {
             using (StreamReader sr = new StreamReader(filePath))
@@ -45,6 +47,11 @@ public class TicketFile
         {
             Console.WriteLine("File does not exist");
         }
+    }
+    catch(Exception ex )
+    {
+        Console.WriteLine($"An error occurred while reading the file: {ex.Message}");
+    }
     }
 
     public void CreateFileFromData()
