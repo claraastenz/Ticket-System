@@ -49,6 +49,38 @@ public class TicketFile
 
     public void CreateFileFromData()
     {
+        using (StreamWriter sw = new StreamWriter(filePath, append: true))
+        {
+            string choice;
+            do
+            {
+                Console.WriteLine("Enter TicketID:");
+                int ticketID = int.Parse(Console.ReadLine());
+
+                Console.WriteLine("Enter Summary:");
+                string summary = Console.ReadLine();
+
+                Console.WriteLine("Enter Status:");
+                string status = Console.ReadLine();
+
+                Console.WriteLine("Enter Priority:");
+                string priority = Console.ReadLine();
+
+                Console.WriteLine("Enter Submitter:");
+                string submitter = Console.ReadLine();
+
+                Console.WriteLine("Enter Assigned:");
+                string assigned = Console.ReadLine();
+
+                Console.WriteLine("Enter Watching (separate names with commas):");
+                string watching = Console.ReadLine();
+
+                sw.WriteLine($"{ticketID},{summary},{status},{priority},{submitter},{assigned},{watching}");
+
+                Console.WriteLine("Do you want to add another ticket? (Y/N)");
+                choice = Console.ReadLine().ToUpper();
+            } while (choice == "Y");
+        }
         
     }
 }
