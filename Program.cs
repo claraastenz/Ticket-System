@@ -145,7 +145,11 @@ public class TicketFile
                             Estimate = estimate
                         };
 
-                        sw.WriteLine(enhancement.ToString());
+                        // Write to Enhancements.csv
+                        using (StreamWriter enhancementsWriter = new StreamWriter("Enhancements.csv", append: true))
+                        {
+                            enhancementsWriter.WriteLine(enhancement.ToString());
+                        }
                     }
                     else
                     {
@@ -169,7 +173,11 @@ public class TicketFile
                             DueDate = dueDate
                         };
 
-                        sw.WriteLine(task.ToString());
+                         // Write to Task.csv
+                        using (StreamWriter tasksWriter = new StreamWriter("Task.csv", append: true))
+                        {
+                            tasksWriter.WriteLine(task.ToString());
+                        }
                     }
 
                 sw.WriteLine($"{ticketID},{summary},{status},{priority},{submitter},{assigned},{watching},{severity}");
