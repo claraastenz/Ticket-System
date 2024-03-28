@@ -19,7 +19,29 @@ namespace TicketManagementApp
         return $"{TicketID},{Summary},{Status},{Priority},{Submitter},{Assigned},{Watching},{Severity}";
     }
 }
+public class Enhancement : Ticket
+    {
+        public string Software { get; set; }
+        public double Cost { get; set; }
+        public string Reason { get; set; }
+        public TimeSpan Estimate { get; set; }
 
+        public override string ToString()
+        {
+            return $"{base.ToString()},{Software},{Cost},{Reason},{Estimate}";
+        }
+    }
+
+    public class Task : Ticket
+    {
+        public string ProjectName { get; set; }
+        public DateTime DueDate { get; set; }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()},{ProjectName},{DueDate}";
+        }
+    }
 
 public class TicketFile
 {
@@ -86,6 +108,69 @@ public class TicketFile
 
                 Console.WriteLine("Enter Severity:");
                 string severity = Console.ReadLine();
+
+                // Additional fields for Enhancement and Task tickets
+                    // Depending on the choice, create Enhancement or Task object
+                    Console.WriteLine("Is this an Enhancement ticket? (Y/N)");
+                    choice = Console.ReadLine().ToUpper();
+
+                    if (choice == "Y")
+                    {
+                        Console.WriteLine("Enter Software:");
+                        string software = Console.ReadLine();
+
+                        Console.WriteLine("Enter Cost:");
+                        double cost = double.Parse(Console.ReadLine());
+
+                        Console.WriteLine("Enter Reason:");
+                        string reason = Console.ReadLine();
+
+                        Console.WriteLine("Enter Estimate (in hours):");
+                        double estimateHours = double.Parse(Console.ReadLine());
+                        TimeSpan estimate = TimeSpan.FromHours(estimateHours);
+
+                        // Create Enhancement object
+                        var enhancement = new Enhancement()
+                        {
+                            TicketID = ticketID,
+                            Summary = summary,
+                            Status = status,
+                            Priority = priority,
+                            Submitter = submitter,
+                            Assigned = assigned,
+                            Watching = watching,
+                            Software = software,
+                            Cost = cost,
+                            Reason = reason,
+                            Estimate = estimate
+                        };
+
+                        sw.WriteLine(enhancement.ToString());
+                    }
+                    else
+                    {
+                        Console.WriteLine("Enter Project Name:");
+                        string projectName = Console.ReadLine();
+
+                        Console.WriteLine("Enter Due Date (YYYY-MM-DD):");
+                        DateTime dueDate = DateTime.Parse(Console.ReadLine());
+
+                        // Create Task object
+                        var task = new Task()
+                        {
+                            TicketID = ticketID,
+                            Summary = summary,
+                            Status = status,
+                            Priority = priority,
+                            Submitter = submitter,
+                            Assigned = assigned,
+                            Watching = watching,
+                            ProjectName = projectName,
+                            DueDate = dueDate
+                        };
+
+                        sw.WriteLine(task.ToString());
+                    }
 
                 sw.WriteLine($"{ticketID},{summary},{status},{priority},{submitter},{assigned},{watching},{severity}");
 
