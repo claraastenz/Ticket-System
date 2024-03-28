@@ -12,12 +12,14 @@ namespace TicketManagementApp
     public string Submitter { get; set; }
     public string Assigned { get; set; }
     public string Watching { get; set; }
+    public string Severity { get; set; }
 
     public override string ToString()
     {
-        return $"{TicketID},{Summary},{Status},{Priority},{Submitter},{Assigned},{Watching}";
+        return $"{TicketID},{Summary},{Status},{Priority},{Submitter},{Assigned},{Watching},{Severity}";
     }
 }
+
 
 public class TicketFile
 {
@@ -82,7 +84,10 @@ public class TicketFile
                 Console.WriteLine("Enter Watching (separate names with commas):");
                 string watching = Console.ReadLine();
 
-                sw.WriteLine($"{ticketID},{summary},{status},{priority},{submitter},{assigned},{watching}");
+                Console.WriteLine("Enter Severity:");
+                string severity = Console.ReadLine();
+
+                sw.WriteLine($"{ticketID},{summary},{status},{priority},{submitter},{assigned},{watching},{severity}");
 
                 Console.WriteLine("Do you want to add another ticket? (Y/N)");
                 choice = Console.ReadLine().ToUpper();
