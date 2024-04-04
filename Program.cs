@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace TicketManagementApp
 {
@@ -116,6 +118,52 @@ namespace TicketManagementApp
                     choice = Console.ReadLine().ToUpper();
                 } while (choice == "Y");
             }
+            
+        }
+
+        public void Search(string searchTerm, string searchType)
+        {
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    List<string> matchingLines = new List<string>();
+                    using (StreamReader sr = new StreamReader(filePath))
+                    {
+                        while (!sr.EndOfStream)
+                        {
+                            string line = sr.ReadLine();
+                            string[] ticketData = line.Split(',');
+                            if (searchType.ToLower() == "status" && ticketData[2].Equals(searchTerm, StringComparison.OrdinalIgnoreCase))
+                            {
+                                matchingLines.Add(line);
+                            }
+                            else if (searchType.ToLower() == "priority" && ticketData[3].Equals(searchTerm, StringComparison.OrdinalIgnoreCase))
+                            {
+                                matchingLines.Add(line);
+                            }
+                            else if (searchType.ToLower() == "submitter" && ticketData[4].Equals(searchTerm, StringComparison.OrdinalIgnoreCase))
+                            {
+                                matchingLines.Add(line);
+                            }
+                        }
+                    }
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"Number of matches: {matchingLines.Count}"); Console.ForegroundColor = ConsoleColor.White;
+                    foreach (string match in matchingLines)
+                    {
+                        Console.WriteLine(match);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("File does not exist");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while searching the file: {ex.Message}");
+            }
         }
     }
 
@@ -130,6 +178,7 @@ namespace TicketManagementApp
                 Console.WriteLine("2) Read data from Enhancements.csv.");
                 Console.WriteLine("3) Read data from Tasks.csv.");
                 Console.WriteLine("4) Create file from data.");
+                Console.WriteLine("5) Search by status, priority, or submitter.");
                 Console.WriteLine("Press Enter to exit.");
 
                 choice = Console.ReadLine();
@@ -158,6 +207,18 @@ namespace TicketManagementApp
                         {
                             TicketFile ticketsFile = new TicketFile("Tickets.csv");
                             ticketsFile.CreateFileFromData();
+                            break;
+                        }
+                    case "5":
+                        {
+                            Console.WriteLine("Enter search term:");
+                            string searchTerm = Console.ReadLine();
+
+                            Console.WriteLine("Enter search type (status/priority/submitter):");
+                            string searchType = Console.ReadLine();
+
+                            TicketFile ticketsFile = new TicketFile("Tickets.csv");
+                            ticketsFile.Search(searchTerm, searchType);
                             break;
                         }
                     default:
